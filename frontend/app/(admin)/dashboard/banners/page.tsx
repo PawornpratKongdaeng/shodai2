@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function Banners() {
-  const [banners, setBanners] = useState([]);
+  const [banners, setBanners] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({ title: "", link: "", image_url: "" });
