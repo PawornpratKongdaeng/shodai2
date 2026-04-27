@@ -40,7 +40,7 @@ export default function Banners() {
     data.append("image", file);
 
     try {
-      const res = await fetch("https://1a1d-49-48-32-150.ngrok-free.app/api/admin/upload", {
+      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/admin/upload", {
         method: "POST",
         headers: { "Authorization": `Bearer ${localStorage.getItem("admin_token")}` },
         body: data,
@@ -60,7 +60,7 @@ export default function Banners() {
   const handleSubmit = async () => {
     const token = localStorage.getItem("admin_token");
     try {
-      const res = await fetch("https://1a1d-49-48-32-150.ngrok-free.app/api/admin/banners", {
+      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/admin/banners", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

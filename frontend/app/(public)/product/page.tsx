@@ -29,8 +29,8 @@ interface Category {
 async function getPageData(categoryFilter?: string) {
   try {
     const [resProducts, resCategories] = await Promise.all([
-      fetch(`https://1a1d-49-48-32-150.ngrok-free.app/api/products`, { cache: "no-store" }),
-      fetch(`https://1a1d-49-48-32-150.ngrok-free.app/api/categories`, { cache: "no-store" }),
+      fetch(`https://25f2-49-48-32-134.ngrok-free.app/api/products`, { cache: "no-store" }),
+      fetch(`https://25f2-49-48-32-134.ngrok-free.app/api/categories`, { cache: "no-store" }),
     ]);
 
     let products: Product[] = [];

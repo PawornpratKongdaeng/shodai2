@@ -47,7 +47,7 @@ export default function ManageProducts() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("https://1a1d-49-48-32-150.ngrok-free.app/api/categories");
+      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/categories");
       if (res.ok) setCategories(await res.json());
     } catch (err) {
       console.error("Error fetching categories:", err);
@@ -56,7 +56,7 @@ export default function ManageProducts() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("https://1a1d-49-48-32-150.ngrok-free.app/api/products");
+      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/products");
       if (res.ok) {
         const data = await res.json();
         setProducts(data);
@@ -75,7 +75,7 @@ export default function ManageProducts() {
     data.append("image", file);
 
     try {
-      const res = await fetch("https://1a1d-49-48-32-150.ngrok-free.app/api/admin/upload", {
+      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/admin/upload", {
         method: "POST",
         headers: { "Authorization": `Bearer ${localStorage.getItem("admin_token")}` },
         body: data,
@@ -125,8 +125,8 @@ export default function ManageProducts() {
 
     const isEditing = editingId !== null;
     const url = isEditing 
-      ? `https://1a1d-49-48-32-150.ngrok-free.app/api/admin/products/${editingId}` 
-      : "https://1a1d-49-48-32-150.ngrok-free.app/api/admin/products";
+      ? `https://25f2-49-48-32-134.ngrok-free.app/api/admin/products/${editingId}` 
+      : "https://25f2-49-48-32-134.ngrok-free.app/api/admin/products";
     const method = isEditing ? "PUT" : "POST";
 
     try {
@@ -176,7 +176,7 @@ export default function ManageProducts() {
     if (isConfirm) {
       try {
         const token = localStorage.getItem("admin_token");
-        const res = await fetch(`https://1a1d-49-48-32-150.ngrok-free.app/api/admin/products/${id}`, {
+        const res = await fetch(`https://25f2-49-48-32-134.ngrok-free.app/api/admin/products/${id}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${token}`

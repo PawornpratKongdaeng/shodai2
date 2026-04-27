@@ -10,7 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 
 async function getProduct(slug: string) {
   const safeSlug = encodeURIComponent(decodeURIComponent(slug));
-const res = await fetch(`https://1a1d-49-48-32-150.ngrok-free.app/api/products/${safeSlug}`, {
+const res = await fetch(`https://25f2-49-48-32-134.ngrok-free.app/api/products/${safeSlug}`, {
     cache: "no-store",
   });
   if (!res.ok) return null;
