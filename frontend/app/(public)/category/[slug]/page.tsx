@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/layout/ProductCard";
 // 1. ฟังก์ชันดึงสินค้าตามหมวดหมู่
 async function getProductsByCategory(slug: string) {
   try {
-    const res = await fetch(`https://25f2-49-48-32-134.ngrok-free.app/api/products?category=${encodeURIComponent(slug)}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products?category=${encodeURIComponent(slug)}`, {
       cache: "no-store", 
     });
     if (!res.ok) return [];
@@ -23,7 +23,7 @@ async function getProductsByCategory(slug: string) {
 // 2. ฟังก์ชันดึงข้อมูลหมวดหมู่เพื่อส่งให้ Sidebar
 async function getCategories() {
   try {
-    const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/categories", { 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, { 
       cache: "no-store" 
     });
     if (!res.ok) return [];

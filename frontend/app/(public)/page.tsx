@@ -8,10 +8,10 @@ import { HeroBanner } from "@/components/layout/HeroSearch";
 async function getData() {
   try {
     const [resProducts, resCategories, resBanners] = await Promise.all([
-      fetch("https://25f2-49-48-32-134.ngrok-free.app/api/products", { cache: 'no-store' }),
-      fetch("https://25f2-49-48-32-134.ngrok-free.app/api/categories", { cache: 'no-store' }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`, { cache: 'no-store' }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, { cache: 'no-store' }),
       // สมมติว่าฝั่ง Go มีเส้น API /api/banners (แบบไม่ต้องใช้ Token) สำหรับหน้าบ้าน
-      fetch("https://25f2-49-48-32-134.ngrok-free.app/api/banners", { cache: 'no-store' }).catch(() => null)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/banners`, { cache: 'no-store' }).catch(() => null)
     ]);
     
     // ป้องกันกรณีที่ API Banners ยังไม่พร้อม

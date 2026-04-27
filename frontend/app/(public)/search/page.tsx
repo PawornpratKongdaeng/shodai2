@@ -10,7 +10,7 @@ import { CategorySidebar } from "@/components/layout/CategorySidebar";
 async function getSearchResults(query: string) {
   if (!query) return [];
   try {
-    const res = await fetch(`http://localhost:8080/api/products/search?q=${encodeURIComponent(query)}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/search?q=${encodeURIComponent(query)}`, {
       cache: "no-store", 
     });
     if (!res.ok) return [];
@@ -24,7 +24,7 @@ async function getSearchResults(query: string) {
 // 2. ฟังก์ชันดึงข้อมูลหมวดหมู่สำหรับ Sidebar
 async function getCategories() {
   try {
-    const res = await fetch("http://localhost:8080/api/categories", { 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, { 
       cache: "no-store" 
     });
     if (!res.ok) return [];

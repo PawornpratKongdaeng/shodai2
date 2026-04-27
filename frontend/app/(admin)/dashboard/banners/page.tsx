@@ -40,7 +40,7 @@ export default function Banners() {
     data.append("image", file);
 
     try {
-      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/admin/upload", {
+      const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/admin/upload", {
         method: "POST",
         headers: { "Authorization": `Bearer ${localStorage.getItem("admin_token")}` },
         body: data,
@@ -60,7 +60,7 @@ export default function Banners() {
   const handleSubmit = async () => {
     const token = localStorage.getItem("admin_token");
     try {
-      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/admin/banners", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/banners`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -188,7 +188,7 @@ export default function Banners() {
                     <Button variant="destructive" size="sm" onClick={async () => {
                       if(confirm("ต้องการลบแบนเนอร์นี้ใช่ไหม?")) {
                         const token = localStorage.getItem("admin_token");
-                        await fetch(`http://localhost:8080/api/admin/banners/${banner.id}`, {
+                        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/banners/${banner.id}`, {
                           method: "DELETE",
                           headers: { "Authorization": `Bearer ${token}` }
                         });

@@ -27,7 +27,7 @@ export default function ManageCategories() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("https://25f2-49-48-32-134.ngrok-free.app/api/categories");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`);
       if (res.ok) setCategories(await res.json());
     } catch (err) {
       console.error(err);
@@ -40,7 +40,7 @@ export default function ManageCategories() {
 
     const token = localStorage.getItem("admin_token");
     try {
-      const res = await fetch(`https://25f2-49-48-32-134.ngrok-free.app/api/admin/categories/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/categories/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -95,8 +95,8 @@ export default function ManageCategories() {
     
     const method = editingId ? "PUT" : "POST";
     const url = editingId 
-      ? `https://25f2-49-48-32-134.ngrok-free.app/api/admin/categories/${editingId}`
-      : "https://25f2-49-48-32-134.ngrok-free.app/api/admin/categories";
+      ? `${process.env.NEXT_PUBLIC_API_URL}/api/admin/categories/${editingId}`
+      : `${process.env.NEXT_PUBLIC_API_URL}/api/admin/categories`;
 
     try {
       const res = await fetch(url, {

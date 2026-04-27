@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   // ดึงข้อมูลสินค้ามาแสดงผลเท่านั้น
   const fetchProducts = () => {
-    fetch("https://25f2-49-48-32-134.ngrok-free.app/api/products")
+    fetch("${process.env.NEXT_PUBLIC_API_URL}/api/products")
       .then(res => res.json())
       .then(setProducts)
       .catch(err => console.error("ไม่สามารถเชื่อมต่อ API ได้", err));

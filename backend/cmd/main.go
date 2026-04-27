@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -16,6 +17,11 @@ import (
 
 func main() {
 	config.ConnectDatabase()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	var userCount int64
 	config.DB.Model(&models.User{}).Count(&userCount)
@@ -78,5 +84,6 @@ func main() {
 	admin.Post("/categories", categoryHandler.CreateCategory)
 	admin.Put("/categories/:id", categoryHandler.EditCategory)
 	admin.Delete("/categories/:id", categoryHandler.DeleteCategory)
-	log.Fatal(app.Listen(":8080"))
+	fmt.Printf("🚀 Server is running on port %s\n", port)
+	log.Fatal(app.Listen(":" + port))
 }
