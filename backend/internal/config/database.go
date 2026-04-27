@@ -3,11 +3,9 @@ package config
 import (
 	"fmt"
 	"log"
-
-	//"os"
+	"os" // ต้องนำเข้า os เพื่อใช้ os.Getenv
 
 	"github.com/shodaishop/shodaishop/internal/models"
-	//"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,8 +13,28 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := "host=127.0.0.1 user=admin password=password123 dbname=my_store port=5434 sslmode=disable"
-	fmt.Println("🚀 กำลังพยายามเชื่อมไปที่:", dsn) // ปริ้นต์ออกมาดูเพื่อความชัวร์
+	// ดึงค่าจาก Environment Variables ที่เราจะไปตั้งใน Render
+	host := os.Getenv("DB_HOST")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+	port := os.Getenv("DB_PORT")
+	sslmode := os.Getenv("DB_SSLMODE")
+
+	// กรณีรันในเครื่องตัวเองแล้วไม่มีการตั้งค่า Env ให้ใช้ค่า Default (Optional)
+	if host == "" {
+		host = "127.0.0.1"
+		user = "admin"
+		password = "password123"
+		dbname = "my_store"
+		port = "5434"
+		sslmode = "disable"
+	}
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+		host, user, password, dbname, port, sslmode)
+
+	fmt.Println("🚀 กำลังพยายามเชื่อมไปที่ Database บน Cloud...")
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -29,5 +47,5 @@ func ConnectDatabase() {
 	}
 
 	DB = database
-	fmt.Println("✅ ยืนยัน! เชื่อมต่อและสร้างตารางบน Supabase เรียบร้อย")
+	fmt.Println("✅ เชื่อมต่อฐานข้อมูลสำเร็จ!")
 }
