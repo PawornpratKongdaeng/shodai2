@@ -1,14 +1,8 @@
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import {
-  ChevronRight,
-  SlidersHorizontal,
-  Search,
-} from "lucide-react";
-import { ProductFilterSidebar } from "@/components/layout/ProductFilterSidebar";
-// ✨ Import ProductCard เข้ามาใช้งาน
-import { ProductCard } from "@/components/layout/ProductCard";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { ShopSidebar } from "@/components/layout/ShopSidebar";
+import { ProductCardShodai } from "@/components/layout/ProductCardShodai";
 
 interface Product {
   id: number;
@@ -23,9 +17,9 @@ interface Product {
 interface Category {
   id: number;
   name: string;
+  slug: string;
 }
 
-// รวมฟังก์ชันดึงข้อมูล Product และ Category ไว้ด้วยกัน
 async function getPageData(categoryFilter?: string) {
   try {
     const [resProducts, resCategories] = await Promise.all([
@@ -36,21 +30,14 @@ async function getPageData(categoryFilter?: string) {
     let products: Product[] = [];
     let categories: Category[] = [];
 
-    // ดึงข้อมูล Categories
-    if (resCategories.ok) {
-      categories = await resCategories.json();
-    }
+    if (resCategories.ok) categories = await resCategories.json();
 
-    // ดึงข้อมูล Products และทำการ Filter
     if (resProducts.ok) {
       const allProducts: Product[] = await resProducts.json();
-      if (categoryFilter && categoryFilter !== "all") {
-        products = allProducts.filter(
-          (p) => p.category?.toLowerCase() === categoryFilter.toLowerCase(),
-        );
-      } else {
-        products = allProducts;
-      }
+      products =
+        categoryFilter && categoryFilter !== "all"
+          ? allProducts.filter((p) => p.category?.toLowerCase() === categoryFilter.toLowerCase())
+          : allProducts;
     }
 
     return { products, categories };
@@ -66,62 +53,48 @@ export default async function ProductsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category: activeCategory = "all" } = await searchParams;
-
-  // เรียกใช้งาน Data ทั้งสองส่วน
   const { products, categories } = await getPageData(activeCategory);
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-16">
-        <div className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center gap-1.5 text-xs text-slate-500">
-            <Link href="/" className="hover:text-[#FF4500] transition-colors">
-              หน้าหลัก
-            </Link>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-slate-900 dark:text-slate-100 font-medium">
-              สินค้าทั้งหมด
-            </span>
+    <div className="sd">
+      <SiteHeader />
+
+      <main id="main" className="shop-main">
+        <div className="breadcrumb-bar">
+          <div className="sd-wrap breadcrumb">
+            <Link href="/">หน้าหลัก</Link>
+            <span className="sep">›</span>
+            <span className="current">สินค้าทั้งหมด</span>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
-          <div className="md:hidden mb-6">
-            <button className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900">
-              <SlidersHorizontal size={16} />
-              ตัวกรองสินค้า
-            </button>
+        <div className="sd-wrap">
+          <div className="page-head">
+            <div>
+              <h1>
+                สินค้า<span className="accent">ทั้งหมด</span>
+              </h1>
+              <p>พบสินค้า {products.length} รายการ</p>
+            </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* ─── ส่ง Props categories ไปให้ Sidebar ─── */}
-            <ProductFilterSidebar categories={categories} />
+          <div className="shop-layout">
+            <ShopSidebar categories={categories} />
 
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200">
-                  พบสินค้า {products.length} รายการ
-                </h2>
-              </div>
-
+            <div className="shop-content">
               {products.length === 0 ? (
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 py-20 flex flex-col items-center justify-center text-center px-4">
-                  <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
-                    <Search className="w-8 h-8 text-slate-400" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                    ไม่พบสินค้าในหมวดหมู่นี้
-                  </h3>
-                  <p className="text-slate-500 text-sm max-w-sm">
-                    ลองเลือกหมวดหมู่ใหม่ หรือค้นหาด้วยคำค้นหาอื่นดูอีกครั้ง
-                  </p>
+                <div className="shop-empty">
+                  <div className="shop-empty__icon">🔍</div>
+                  <h3>ไม่พบสินค้าในหมวดหมู่นี้</h3>
+                  <p>ลองเลือกหมวดหมู่ใหม่ หรือค้นหาด้วยคำค้นหาอื่นดูอีกครั้ง</p>
+                  <Link className="button button--primary" href="/">
+                    กลับหน้าหลัก
+                  </Link>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                  {/* ✨ เรียกใช้ ProductCard Component แทนโค้ดยาวๆ */}
+                <div className="item-grid">
                   {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCardShodai key={product.id} product={product} />
                   ))}
                 </div>
               )}
@@ -129,7 +102,8 @@ export default async function ProductsPage({
           </div>
         </div>
       </main>
-      <Footer />
-    </>
+
+      <SiteFooter />
+    </div>
   );
 }

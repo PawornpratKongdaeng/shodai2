@@ -1,0 +1,5 @@
+.DS_Store
+**/.DS_Store
+
+# โฟลเดอร์ source ของดีไซน์ static ที่นำมา rebuild แล้ว (เก็บไว้อ้างอิงเฉพาะเครื่อง)
+new file/
