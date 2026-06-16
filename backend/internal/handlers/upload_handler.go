@@ -35,7 +35,11 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": "Cannot save file"})
 	}
 
-	// ส่ง URL กลับ
-	imageUrl := fmt.Sprintf("http://localhost:8080/uploads/%s", filename)
+	// ส่ง URL กลับ — ใช้ PUBLIC_URL จาก env ถ้ามี (สำหรับ production) ไม่งั้น fallback เป็น localhost
+	baseURL := os.Getenv("PUBLIC_URL")
+	if baseURL == "" {
+		baseURL = "http://localhost:8080"
+	}
+	imageUrl := fmt.Sprintf("%s/uploads/%s", baseURL, filename)
 	return c.JSON(fiber.Map{"image_url": imageUrl})
 }

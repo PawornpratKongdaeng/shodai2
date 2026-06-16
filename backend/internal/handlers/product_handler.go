@@ -93,8 +93,12 @@ func (h *ProductHandler) UpdateProduct(c *fiber.Ctx) error {
 	if err := c.BodyParser(product); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
 	}
-	// Logic การอัปเดตใน Repository (ตัวอย่างรวบรัด)
-	if err := config.DB.Model(&models.Product{}).Where("id = ?", id).Updates(product).Error; err != nil {
+	// ระบุคอลัมน์ที่อนุญาตให้แก้ไขชัดเจน เพื่อให้ค่าว่าง ("") ถูกบันทึกด้วย
+	// (GORM Updates แบบ struct จะข้ามค่า zero-value) และไม่ไปแตะ is_active / created_at
+	if err := config.DB.Model(&models.Product{}).Where("id = ?", id).
+		Select("name", "slug", "description", "price", "image_url",
+			"category_id", "brand", "product_type", "compatible_models", "features").
+		Updates(product).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": "Update failed"})
 	}
 	return c.JSON(fiber.Map{"message": "Product updated successfully"})

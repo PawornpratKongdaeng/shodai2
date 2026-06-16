@@ -2,13 +2,11 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ProductCardShodai } from "@/components/layout/ProductCardShodai";
-import { LINE_URL } from "@/lib/shodai";
+import { LINE_URL, LINE_ID, PHONE, PHONE_DISPLAY } from "@/lib/shodai";
 
 // รูป hero สำรอง ใช้เมื่อยังไม่มี banner จากหลังบ้าน
 const FALLBACK_HERO = [
-  { src: "/shodai/shodai-big-banner.png", alt: "Shodai Ev Shop ศูนย์รวมอะไหล่รถยนต์ไฟฟ้า" },
-  { src: "/shodai/shodai-secondary-banner.png", alt: "Shodai Ev Shop โปรโมชั่นอะไหล่แท้ศูนย์" },
-  { src: "/shodai/shodai-byd-parts-banner.png", alt: "Shodai EV อะไหล่ BYD คุณภาพอันดับ 1" },
+  { src: "/shodai/shodai-hero.jpg", alt: "Shodai Ev Shop ศูนย์รวมอะไหล่รถยนต์ไฟฟ้า NETA BYD AION JAECOO DEEPAL" },
 ];
 
 async function getData() {
@@ -48,7 +46,9 @@ export default async function HomePage() {
       <main id="main">
         <section className="hero" aria-label="Shodai Ev Shop hero">
           <div className="hero-slider" data-slider>
-            <button className="hero-arrow hero-arrow--prev" type="button" data-slide-prev aria-label="ก่อนหน้า"></button>
+            {heroSlides.length > 1 && (
+              <button className="hero-arrow hero-arrow--prev" type="button" data-slide-prev aria-label="ก่อนหน้า"></button>
+            )}
             {heroSlides.map((slide, i) => (
               <div key={i} className={`hero-slide${i === 0 ? " is-active" : ""}`} data-slide>
                 <picture>
@@ -56,12 +56,16 @@ export default async function HomePage() {
                 </picture>
               </div>
             ))}
-            <button className="hero-arrow hero-arrow--next" type="button" data-slide-next aria-label="ถัดไป"></button>
-            <div className="hero-dots" aria-hidden="true">
-              {heroSlides.map((_, i) => (
-                <span key={i} className={i === 0 ? "is-active" : ""} data-hero-dot></span>
-              ))}
-            </div>
+            {heroSlides.length > 1 && (
+              <>
+                <button className="hero-arrow hero-arrow--next" type="button" data-slide-next aria-label="ถัดไป"></button>
+                <div className="hero-dots" aria-hidden="true">
+                  {heroSlides.map((_, i) => (
+                    <span key={i} className={i === 0 ? "is-active" : ""} data-hero-dot></span>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </section>
 
@@ -246,10 +250,15 @@ export default async function HomePage() {
               <h2>ติดต่อเรา - สอบถาม</h2>
               <p>สินค้าราคาเท่าไหร่ ใช้งานกับรถของท่านได้ไหม ?</p>
             </div>
-            <a href={LINE_URL} target="_blank" rel="noopener">
-              <span className="line-dot">LINE</span>
-              LINE ID: @shodaievshop
-            </a>
+            <div className="contact-band__actions">
+              <a href={LINE_URL} target="_blank" rel="noopener">
+                <span className="line-dot">LINE</span>
+                LINE ID: {LINE_ID}
+              </a>
+              <a className="contact-band__call" href={`tel:${PHONE}`}>
+                โทรเลย {PHONE_DISPLAY}
+              </a>
+            </div>
           </div>
         </section>
       </main>

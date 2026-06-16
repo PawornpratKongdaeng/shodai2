@@ -25,7 +25,7 @@ export function SiteHeader() {
         <div className="header-main">
           <div className="sd-wrap header-main__inner">
             <Link className="brand" href="/" aria-label="Shodai Ev Shop">
-              <img src="/shodai/IMG_3144-removebg-preview.png" alt="Shodai Ev Shop" />
+              <img src="/shodai/shodai-logo.png" alt="Shodai Ev Shop" />
             </Link>
 
             <form className="search-box" action="/search" role="search">

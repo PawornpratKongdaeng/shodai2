@@ -323,9 +323,9 @@ body.menu-open {
 
 .hero-slider {
   position: relative;
-  max-width: 1920px;
+  max-width: 1637px;
   margin: 0 auto;
-  height: clamp(430px, 42vw, 650px);
+  aspect-ratio: 1637 / 960;
   overflow: hidden;
   background: #030303;
 }
@@ -1487,6 +1487,85 @@ body.menu-open {
   font-weight: 1000;
 }
 
+.contact-band__actions {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-band__call {
+  background: linear-gradient(135deg, #ffd44f, #ff8a00) !important;
+  color: #1a1206 !important;
+}
+
+/* แถบติดต่อด่วนแบบลอย แสดงทุกหน้า ให้ลูกค้ากดง่าย */
+.contact-dock {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-dock__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 52px;
+  padding: 0 20px 0 16px;
+  border-radius: 999px;
+  font-weight: 1000;
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-dock__btn svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+.contact-dock__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.4);
+}
+
+.contact-dock__btn--line {
+  background: #13c95f;
+}
+
+.contact-dock__btn--call {
+  background: linear-gradient(135deg, #ffd44f, #ff8a00);
+  color: #1a1206;
+}
+
+@media (max-width: 640px) {
+  .contact-dock {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    flex-direction: row;
+  }
+
+  .scroll-top {
+    right: 12px;
+    bottom: 82px;
+  }
+
+  .contact-dock__btn {
+    flex: 1;
+    justify-content: center;
+    height: 54px;
+    padding: 0 12px;
+  }
+
+  .contact-dock__btn--call span {
+    font-size: 14px;
+  }
+}
+
 .site-footer {
   background: #08090c;
   color: #a3a8b2;
@@ -1584,7 +1663,7 @@ body.menu-open {
 .scroll-top {
   position: fixed;
   right: 22px;
-  bottom: 22px;
+  bottom: 150px;
   z-index: 60;
   width: 48px;
   height: 48px;
@@ -1829,22 +1908,12 @@ body.menu-open {
   .hero-slide img {
     min-height: 0;
     object-fit: cover;
+    object-position: center;
   }
 
   .hero-slider {
-    height: 430px;
-  }
-
-  .hero-slide:first-of-type img {
-    object-position: 46% center;
-  }
-
-  .hero-slide:nth-of-type(2) img {
-    object-position: 43% center;
-  }
-
-  .hero-slide:nth-of-type(3) img {
-    object-position: 44% center;
+    height: auto;
+    aspect-ratio: 1637 / 960;
   }
 
   .hero-arrow {

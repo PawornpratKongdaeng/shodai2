@@ -30,6 +30,25 @@ export default function Banners() {
   
   const router = useRouter();
 
+  // โหลดแบนเนอร์เดิมจากฐานข้อมูล + เช็คสิทธิ์ก่อนเข้า
+  useEffect(() => {
+    const token = localStorage.getItem("admin_token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+    fetchBanners();
+  }, [router]);
+
+  const fetchBanners = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/banners`);
+      if (res.ok) setBanners(await res.json());
+    } catch (err) {
+      console.error("Error fetching banners:", err);
+    }
+  };
+
   // ฟังก์ชันอัปโหลดรูป (เรียกใช้ API ที่เราทำไว้คราวก่อน)
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,7 +59,7 @@ export default function Banners() {
     data.append("image", file);
 
     try {
-      const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/admin/upload", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/upload`, {
         method: "POST",
         headers: { "Authorization": `Bearer ${localStorage.getItem("admin_token")}` },
         body: data,

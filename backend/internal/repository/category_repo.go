@@ -31,7 +31,10 @@ func (r *categoryRepo) CreateCategory(category *models.Category) error {
 }
 
 func (r *categoryRepo) EditCategory(category *models.Category) error {
-	return r.db.Save(category).Error
+	// อัปเดตเฉพาะฟิลด์ที่ส่งมาจากฟอร์ม จะได้ไม่ไปล้าง image / created_at
+	return r.db.Model(&models.Category{}).Where("id = ?", category.ID).
+		Select("name", "slug", "icon").
+		Updates(category).Error
 }
 
 func (r *categoryRepo) DeleteCategory(id string) error {
