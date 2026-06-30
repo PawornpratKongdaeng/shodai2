@@ -6,7 +6,7 @@ import { LINE_URL, LINE_ID, PHONE, PHONE_DISPLAY } from "@/lib/shodai";
 
 // รูป hero สำรอง ใช้เมื่อยังไม่มี banner จากหลังบ้าน
 const FALLBACK_HERO = [
-  { src: "/shodai/shodai-hero.jpg", alt: "Shodai Ev Shop ศูนย์รวมอะไหล่รถยนต์ไฟฟ้า NETA BYD AION JAECOO DEEPAL" },
+  { src: "/shodai/IMG_7378.jpg", alt: "Shodai Ev Shop ศูนย์รวมอะไหล่รถยนต์ไฟฟ้า NETA BYD AION JAECOO DEEPAL" },
 ];
 
 async function getData() {
